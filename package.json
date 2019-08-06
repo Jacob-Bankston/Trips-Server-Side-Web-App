@@ -1,0 +1,14 @@
+{
+  "name": "trips",
+  "version": "1.0.0",
+  "description": "server side pages for a trips web app",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jacob Bankston",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
