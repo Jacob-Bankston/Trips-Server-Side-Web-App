@@ -5,6 +5,8 @@ const PORT = 3000
 const Trip = require('./models/trips')
 
 app.use(express.urlencoded())
+app.use(express.static('styles'))
+
 app.engine('mustache', mustacheExpress())
 app.set('views', './views')
 app.set('view engine', 'mustache')
@@ -13,7 +15,7 @@ trips = []
 
 // Main Page
 app.get('/', (req,res) => {
-    res.render('index', trips)
+    res.render('index', {trips: trips})
 })
 
 app.post('/add-trip',(req,res) => {
@@ -24,6 +26,21 @@ app.post('/add-trip',(req,res) => {
     let trip = new Trip(title, image, departureDate, returnDate)
 
     trips.push(trip)
+
+    console.log(trip)
+    console.log(trip.title)
+    console.log(trip.image)
+    console.log(trip.departureDate)
+    console.log(trip.returnDate)
+    res.redirect('/')
+
+})
+
+app.post('/delete-trip', (req,res) => {
+    let tripName = req.body.tripName
+    trips = trips.filter(trip => {
+        trip.name != tripName
+    })
 
     res.redirect('/')
 

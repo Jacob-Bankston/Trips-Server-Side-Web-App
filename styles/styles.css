@@ -1,0 +1,117 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #39CCCC;
+}
+
+#title-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #3D9970;
+    color: white;
+    text-shadow: 2px 2px 0 black;
+    border-bottom: 2px solid black;
+    margin-bottom: 20px;
+}
+
+#title-header h1 {
+    margin: 0;
+    padding: 20px 0 20px 0;
+    font-size: 3em;
+}
+
+#adding-trips {
+    display: flex;
+    justify-content: center;
+}
+
+#adding-trips-form {
+    background-color: #3D9970;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#adding-trips-form * {
+    margin: 5px;
+    font-size: 1em;
+    color: white;
+}
+
+#adding-trips-form input[type=date], #adding-trips-form input[type=text] {
+    color: black;
+    text-align: center;
+    background-color: white;
+}
+
+#adding-trips-form label {
+    font-size: 1em;
+    color: white;
+}
+
+#trips-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+
+.trip-information {
+    display: flex;
+    flex-direction: column;
+    background-color: #3D9970;
+    margin: 8px 24px 8px 24px;
+    padding: 8px 16px 8px 16px;
+    align-items: center;
+    border: 2px solid black;
+    border-radius: 20px;
+    justify-content: space-between;
+}
+
+.trip-titles {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: white;
+    text-shadow: 1px 1px 0 black;
+    font-size: 2em;
+}
+
+.trip-images {
+    width: 95%;
+    height: auto;
+    padding: 16px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: rgba(255,255,255,.4);
+}
+
+.trip-dates {
+    margin-top: 10px;
+    font-size: 1em;
+    color: white;
+    border-radius: 10px;
+    padding: 4px;
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    font-size: 1.2em;
+}
+
+.departing, .returning {
+    flex: 40;
+}
+
+.filler {
+    flex: 18;
+}
+
+.trip-dates input {
+    outline-color: #39CCCC;
+    background-color: rgba(255,255,255,.4);
+    border-radius: 10px;
+    flex: 1;
+}
