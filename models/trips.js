@@ -5,6 +5,9 @@ class Trip {
         this.departureDate = departureDate
         this.returnDate = returnDate
     }
+
+    // Todo - Add a delete and an update function
+
 }
 
 module.exports = Trip
