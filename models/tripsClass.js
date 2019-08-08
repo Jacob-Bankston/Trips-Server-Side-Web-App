@@ -4,6 +4,7 @@ class Trip {
         this.image = image
         this.departureDate = departureDate
         this.returnDate = returnDate
+        this.user = user
         this.tripId = tripId
     }
 }

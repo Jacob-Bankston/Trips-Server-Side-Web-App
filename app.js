@@ -2,10 +2,8 @@ const express = require('express')
 const mustacheExpress = require('mustache-express')
 const app = express()
 const path = require('path')
-const Trip = require('./models/tripsClass')
 const User = require('./models/usersClass')
 const session = require('express-session')
-const userUuid = require('uuid/v1')
 const PORT = 3000
 
 app.use(session({
@@ -14,9 +12,11 @@ app.use(session({
     saveUninitialized: true,
 }))
 
+app.all('/trips/*', authenticate)
+app.all('/trips', authenticate)
+
 app.use(express.json())
 app.use(express.urlencoded())
-app.all('/trips/*', authenticate)
 app.use(express.static('styles'))
 
 const VIEWS_PATH = path.join(__dirname,'/views')
@@ -79,7 +79,7 @@ app.post('/register',(req,res) => {
     res.redirect('/')
 })
 
-app.get('/logout',(req,res) => {
+app.get('/logout', (req,res) => {
     if(req.session) {
         req.session.destroy(error => {
             if(error) {
