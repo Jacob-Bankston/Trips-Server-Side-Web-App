@@ -1,49 +1,94 @@
 const express = require('express')
-const app = express()
 const mustacheExpress = require('mustache-express')
+const app = express()
+const path = require('path')
+const Trip = require('./models/tripsClass')
+const User = require('./models/usersClass')
+const session = require('express-session')
+const userUuid = require('uuid/v1')
 const PORT = 3000
-const Trip = require('./models/trips')
 
+app.use(session({
+    secret: 'this isnt very secretive when posted to github',
+    resave: false,
+    saveUninitialized: true,
+}))
+
+app.use(express.json())
 app.use(express.urlencoded())
+app.all('/trips/*', authenticate)
 app.use(express.static('styles'))
 
-app.engine('mustache', mustacheExpress())
-app.set('views', './views')
+const VIEWS_PATH = path.join(__dirname,'/views')
+
+app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials','.mustache'))
+app.set('views', VIEWS_PATH)
 app.set('view engine', 'mustache')
 
-trips = []
+global.users = []
+global.trips = []
 
-// Main Page
+const tripsRouter = require('./routes/trips')
+app.use('/trips', tripsRouter)
+
+function authenticate(req,res,next) {
+    if(req.session) {
+        if(req.session.username) {
+            next()
+        } else {
+            res.redirect('/')
+        }
+    } else {
+        res.redirect('/')
+    }
+}
+
 app.get('/', (req,res) => {
-    res.render('index', {trips: trips})
+    res.render('login')
 })
 
-app.post('/add-trip',(req,res) => {
-    let title = req.body.title
-    let image = req.body.image
-    let departureDate = req.body.departureDate
-    let returnDate = req.body.returnDate
-    let trip = new Trip(title, image, departureDate, returnDate)
+app.post('/login', (req,res) => {
+    let username = req.body.username
+    let password = req.body.password
 
-    trips.push(trip)
-
-    console.log(trip)
-    console.log(trip.title)
-    console.log(trip.image)
-    console.log(trip.departureDate)
-    console.log(trip.returnDate)
-    res.redirect('/')
-
-})
-
-app.post('/delete-trip', (req,res) => {
-    let tripName = req.body.tripName
-    trips = trips.filter(trip => {
-        trip.name != tripName
+    let persistedUser = users.find(user => {
+        return user.username == username && user.password == password
     })
 
-    res.redirect('/')
+    if(persistedUser) {
+        if(req.session) {
+            req.session.username = persistedUser.username
+            res.redirect('/trips')
+        }
+    } else {
+        res.render('login', {message: 'Invalid username or password'})
+    }  
+})
 
+app.get('/register', (req,res) => {
+    res.render('register')
+})
+
+app.post('/register',(req,res) => {
+    let username = req.body.username
+    let password = req.body.password
+    let user = new User(username, password)
+
+    users.push(user)
+
+    res.redirect('/')
+})
+
+app.get('/logout',(req,res) => {
+    if(req.session) {
+        req.session.destroy(error => {
+            if(error) {
+                next(error)
+            } else {
+                res.redirect('/')
+            }
+        })
+    }
 })
 
 app.listen(PORT, () => {

@@ -1,13 +1,11 @@
 class Trip {
-    constructor(title, image, departureDate, returnDate) {
+    constructor(title, image, departureDate, returnDate, user, tripId) {
         this.title = title
         this.image = image
         this.departureDate = departureDate
         this.returnDate = returnDate
+        this.tripId = tripId
     }
-
-    // Todo - Add a delete and an update function
-
 }
 
 module.exports = Trip

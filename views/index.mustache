@@ -9,9 +9,12 @@
     <body>
     <div id="title-header">
         <h1>Trips</h1>
+        <form action="/logout" method="GET">
+            <input type="submit" value="Log Out" />
+        </form>
     </div>
     <div id="adding-trips">
-        <form id="adding-trips-form" action="/add-trip" method="POST">
+        <form id="adding-trips-form" action="/trips/add-trip" method="POST">
             <input type="text" name="title" placeholder="Trip Title" />
             <input type="text" name="image" placeholder="Trip Image Link" />
             <label for="departure-date">Trip Departure Date:</label>
@@ -23,7 +26,7 @@
     </div>
     <div id="trips-list">
         {{#trips}}
-            <form class="trip-information" action="/delete-trip" method="POST">
+            <form class="trip-information" action="/trips/delete-trip" method="POST">
                 <span class="trip-titles">{{title}}</span>
                 <img class="trip-images" src="{{image}}" />
                 <span class="trip-dates">
@@ -32,7 +35,7 @@
                     <span class="returning">Returning: {{returnDate}}</span>
                     <input type="submit" value="X" />
                 </span>
-                <input type="hidden" name="tripName" value="{{name}}" />
+                <input type="hidden" name="tripTitle" value="{{title}}" />
             </form>
         {{/trips}}
     </div>
