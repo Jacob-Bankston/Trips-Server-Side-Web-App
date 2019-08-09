@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="styles.css" />
+        <title>Trips</title>
+    </head>
+    <body>
+    <div id="title-header">
+        <h1>Trips</h1>
+        <form action="/logout" method="GET">
+            <input type="submit" value="Log Out" />
+        </form>
+    </div>
+    <div id="chat-message-header">
+        <span>Chat Messaging Board</span>
+    </div>
+    <div id="chat-room">
+        <div id="chatMessages">
+
+        <input type="text" id="chatMessageTextBox" placeholder="Enter Chat Message Here!" />
+        <button id="sendButton">Send</button>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/client.js"></script>
+    </body>
+</html>

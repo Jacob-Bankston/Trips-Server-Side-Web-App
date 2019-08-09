@@ -5,6 +5,8 @@ const path = require('path')
 const User = require('./models/usersClass')
 const session = require('express-session')
 const PORT = 3000
+const http = require('http').createServer(app);
+const io = require('socket.io').listen(http);
 
 app.use(session({
     secret: 'this isnt very secretive when posted to github',
@@ -18,6 +20,7 @@ app.all('/trips', authenticate)
 app.use(express.json())
 app.use(express.urlencoded())
 app.use(express.static('styles'))
+app.use('/js', express.static('public'))
 
 const VIEWS_PATH = path.join(__dirname,'/views')
 
@@ -91,6 +94,15 @@ app.get('/logout', (req,res) => {
     }
 })
 
-app.listen(PORT, () => {
+io.on('connection', (socket) => {
+    console.log("You are connected...")
+
+    socket.on('Trips', (message) => {
+        console.log(message)
+        io.emit('Trips', message)
+    })
+})
+
+http.listen(PORT, () => {
     console.log("Server is running...")
 })
