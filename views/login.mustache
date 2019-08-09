@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="styles.css" />
-        <title>Login</title>
-    </head>
-    <body>
-    <div id="title-header">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Login</title>
+</head>
+<body>
+    <div id="title-login-header">
         <h1>Trips</h1>
         <h2>Main Login Page</h2>
     </div>
 
-    <div>
+    <div class="register-button">
         <form action="/register" method="GET">
             <input type="submit" name="register" value="Register" />
         </form>
     </div>
-    <div>
-    <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Enter username"/>
-        <input type="password" name="password" placeholder="Enter password" />
-        <input type="submit" />
-    </form>
+    <div class="login-area">
+        <form action="/login" method="POST">
+            <input type="text" name="username" placeholder="Enter username"/>
+            <input type="password" name="password" placeholder="Enter password" />
+            <input type="submit" />
+        </form>
     </div>
-
-    {{message}}
-
-    </body>
+    <div id="error-message">
+        {{message}}
+    </div>
+</body>
 </html>

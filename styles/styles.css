@@ -13,13 +13,39 @@ body {
     color: white;
     text-shadow: 2px 2px 0 black;
     border-bottom: 2px solid black;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    padding: 16px;
 }
 
 #title-header h1 {
     margin: 0;
     padding: 20px 0 20px 0;
     font-size: 3em;
+}
+#title-login-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #3D9970;
+    color: white;
+    text-shadow: 2px 2px 0 black;
+    border-bottom: 2px solid black;
+    margin-bottom: 16px;
+    padding: 16px;
+}
+
+#title-login-header h1 {
+    margin: 0;
+    padding: 20px 0 20px 0;
+    font-size: 3em;
+}
+
+#title-header form {
+    border: 2px solid white;
+    border-radius: 8px;
+    color: white;
+    text-shadow: 1px 1px 0 black;
 }
 
 #adding-trips {
