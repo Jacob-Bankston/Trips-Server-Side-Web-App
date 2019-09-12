@@ -1,108 +1,77 @@
-const express = require('express')
-const mustacheExpress = require('mustache-express')
-const app = express()
-const path = require('path')
-const User = require('./models/usersClass')
-const session = require('express-session')
-const PORT = 3000
-const http = require('http').createServer(app);
-const io = require('socket.io').listen(http);
+const express = require("express");
+const mustacheExpress = require("mustache-express");
+const app = express();
+const path = require("path");
+const session = require("express-session");
+const PORT = 3000;
+const Gpio = require("onoff").Gpio;
 
-app.use(session({
-    secret: 'this isnt very secretive when posted to github',
+const gpioswitch = new Gpio(4, "out"); // creating a new output relationship with pin 4
+
+app.use(
+  session({
+    secret: "this isnt very secretive when posted to github",
     resave: false,
-    saveUninitialized: true,
-}))
+    saveUninitialized: true
+  })
+);
 
-app.all('/trips/*', authenticate)
-app.all('/trips', authenticate)
+app.use(express.json());
+app.use(express.urlencoded());
+app.use(express.static("styles"));
 
-app.use(express.json())
-app.use(express.urlencoded())
-app.use(express.static('styles'))
-app.use('/js', express.static('public'))
+const VIEWS_PATH = path.join(__dirname, "/views");
 
-const VIEWS_PATH = path.join(__dirname,'/views')
+app.engine("mustache", mustacheExpress(VIEWS_PATH + "/partials", ".mustache"));
+app.set("views", VIEWS_PATH);
+app.set("view engine", "mustache");
 
-app.engine('mustache',mustacheExpress(VIEWS_PATH + '/partials','.mustache'))
-app.set('views', VIEWS_PATH)
-app.set('view engine', 'mustache')
+let users = [{ username: "default", password: "5120" }];
 
-global.users = []
-global.trips = []
+app.get("/", (req, res) => {
+  res.render("login");
+});
 
-const tripsRouter = require('./routes/trips')
-app.use('/trips', tripsRouter)
+app.post("/login", (req, res) => {
+  let username = "default";
+  let password = req.body.password;
 
-function authenticate(req,res,next) {
-    if(req.session) {
-        if(req.session.username) {
-            next()
-        } else {
-            res.redirect('/')
-        }
-    } else {
-        res.redirect('/')
+  let persistedUser = users.find(user => {
+    return user.username == username && user.password == password;
+  });
+
+  if (persistedUser) {
+    if (req.session) {
+      req.session.password = persistedUser.password;
+      res.render("index");
     }
-}
+  } else {
+    res.render("login", { message: "Invalid password" });
+  }
+});
 
-app.get('/', (req,res) => {
-    res.render('login')
-})
+app.post("/passwordUpdate", (req, res) => {
+  let password = req.body.password;
+  let password2 = req.body.password2;
 
-app.post('/login', (req,res) => {
-    let username = req.body.username
-    let password = req.body.password
+  if (password == password2) {
+    users = [{ username: "default", password: password }];
+    res.render("index", { message: "Success!" });
+  } else {
+    res.render("index", { message: "Passwords did not match" });
+  }
+});
 
-    let persistedUser = users.find(user => {
-        return user.username == username && user.password == password
-    })
+app.post("/buttonPressed", (req, res) => { // untested!!!
+  gpioswitch.writeSync(1);
+  setTimeout(gpioswitch.writeSync(0), 10000);
+  res.render("index", { message: "Unlocked!"});
+});
 
-    if(persistedUser) {
-        if(req.session) {
-            req.session.username = persistedUser.username
-            res.redirect('/trips')
-        }
-    } else {
-        res.render('login', {message: 'Invalid username or password'})
-    }  
-})
+app.get("/:anything", (req, res) => {
+  res.render("login");
+});
 
-app.get('/register', (req,res) => {
-    res.render('register')
-})
-
-app.post('/register',(req,res) => {
-    let username = req.body.username
-    let password = req.body.password
-    let user = new User(username, password)
-
-    users.push(user)
-
-    res.redirect('/')
-})
-
-app.get('/logout', (req,res) => {
-    if(req.session) {
-        req.session.destroy(error => {
-            if(error) {
-                next(error)
-            } else {
-                res.redirect('/')
-            }
-        })
-    }
-})
-
-io.on('connection', (socket) => {
-    console.log("You are connected...")
-
-    socket.on('Trips', (message) => {
-        console.log(message)
-        io.emit('Trips', message)
-    })
-})
-
-http.listen(PORT, () => {
-    console.log("Server is running...")
-})
+app.listen(PORT, () => {
+  console.log("Server is running...");
+});

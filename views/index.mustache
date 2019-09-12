@@ -4,43 +4,40 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="styles.css" />
-        <title>Trips</title>
+        <link rel="stylesheet" href="bootstrap.min.css">
+        <title>Button Area</title>
     </head>
     <body>
-    <div id="title-header">
-        <h1>Trips</h1>
-        <form action="/logout" method="GET">
-            <input type="submit" value="Log Out" />
-        </form>
-        <form action="/trips/chat" method="GET">
-            <input type="submit" value="Chat Room" />
-        </form>
-    </div>
-    <div id="adding-trips">
-        <form id="adding-trips-form" action="/trips/add-trip" method="POST">
-            <input type="text" name="title" placeholder="Trip Title" />
-            <input type="text" name="image" placeholder="Trip Image Link" />
-            <label for="departure-date">Trip Departure Date:</label>
-            <input type="date" id="departure-date" name="departureDate" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}">
-            <label for="return-date">Trip Departure Date:</label>
-            <input type="date" id="return-date" name="returnDate" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}">
-            <input type="submit" value="Submit" />
-        </form>
-    </div>
-    <div id="trips-list">
-        {{#trips}}
-            <form class="trip-information" action="/trips/delete-trip" method="POST">
-                <span class="trip-titles">{{title}}</span>
-                <img class="trip-images" src="{{image}}" />
-                <span class="trip-dates">
-                    <span class="filler"></span>
-                    <span class="departing">Departing: {{departureDate}}</span>
-                    <span class="returning">Returning: {{returnDate}}</span>
-                    <input type="submit" value="X" />
-                </span>
-                <input type="hidden" name="tripTitle" value="{{title}}" />
-            </form>
-        {{/trips}}
-    </div>
+        <div class="container-area jumbotron jumbotron-fluid">
+            <div class="card centered justified">
+                <img src="logo.png" class="card-image-top flexible" alt="logo" />
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <form class="button-press" action="/buttonPressed" method="POST">
+                            <input class="btn btn-success" type="submit" value="Unlock Vehicle" />
+                        </form>
+                        <h6 style="margin-top: 8px;">{{message}}</h6>
+                    </li>
+                    <li class="list-group-item">
+                        <h4 class="updating-password card-title">Change Your Password</h4>
+                        <form id="updating-password-form" action="/passwordUpdate" method="POST">
+                        <hr />
+                            <input class="form-control centered" type="text" name="password" placeholder="New Password"/>
+                            <hr />
+                            <input class="form-control centered" type="text" name="password2" placeholder="Re-Enter New Password"/>
+                            <hr />
+                            <input class="btn btn-outline-success" type="submit" value="Submit" />
+                        </form>
+                        <h6 style="margin-top: 8px;">{{message}}</h6>
+                    </li>
+                    <li class="list-group-item">
+                        <form action="/" method="GET">
+                            <input class="btn btn-danger" type="submit" value="User Log Out" />
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <script src="bootstrap.min.js"></script>
     </body>
 </html>

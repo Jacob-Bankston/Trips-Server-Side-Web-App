@@ -4,28 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="bootstrap.min.css">
     <title>Login</title>
 </head>
 <body>
-    <div id="title-login-header">
-        <h1>Trips</h1>
-        <h2>Main Login Page</h2>
-    </div>
-
-    <div class="register-button">
-        <form action="/register" method="GET">
-            <input type="submit" name="register" value="Register" />
+    <div class="container-area jumbotron jumbotron-fluid">
+        <form class="centering-area container card"action="/login" method="POST">
+            <div class="card-body center-logins">
+                <input class="form-control centered bigger-font" type="password" name="password" placeholder="Enter password" aria-lable="Enter password" />
+                <input class="btn btn-success btn-lg" type="submit" style="margin-top: 16px;" />
+                <div id="error-message">
+                    <h4>{{message}}</h4>
+                </div>
+            </div>
         </form>
     </div>
-    <div class="login-area">
-        <form action="/login" method="POST">
-            <input type="text" name="username" placeholder="Enter username"/>
-            <input type="password" name="password" placeholder="Enter password" />
-            <input type="submit" />
-        </form>
-    </div>
-    <div id="error-message">
-        {{message}}
-    </div>
+    <script src="bootstrap.min.js"></script>
 </body>
 </html>
