@@ -6,7 +6,7 @@ const session = require("express-session");
 const PORT = 3000;
 const Gpio = require("onoff").Gpio;
 
-const gpioswitch = new Gpio(4, "out"); // creating a new output relationship with pin 4
+const gpioswitch = new Gpio(2, "out"); // creating a new output relationship with pin 2
 
 app.use(
   session({
