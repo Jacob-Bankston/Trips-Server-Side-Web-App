@@ -26,7 +26,7 @@ app.engine("mustache", mustacheExpress(VIEWS_PATH + "/partials", ".mustache"));
 app.set("views", VIEWS_PATH);
 app.set("view engine", "mustache");
 
-let users = [{ username: "default", password: "5120" }];
+let users = [{ username: "default", password: "1234" }];
 
 app.get("/", (req, res) => {
   res.render("login");
@@ -62,10 +62,11 @@ app.post("/passwordUpdate", (req, res) => {
   }
 });
 
-app.post("/buttonPressed", (req, res) => { // untested!!!
+app.post("/buttonPressed", (req, res) => {
+  // untested!!!
   gpioswitch.writeSync(1);
   setTimeout(gpioswitch.writeSync(0), 10000);
-  res.render("index", { message: "Unlocked!"});
+  res.render("index", { message: "Unlocked!" });
 });
 
 app.get("/:anything", (req, res) => {
